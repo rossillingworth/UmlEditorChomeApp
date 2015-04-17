@@ -1,85 +1,110 @@
 {
-  "manifest_version": 2,
+    "manifest_version": 2,
 
-  "name": "JSONPath Tester",
-  "description": "Test extracting data from JSON documents with JSONpath",
-  "version": "1.0",
+    "name": "PlantUML Editor",
+    "version": "1.0",
 
-  "app":{
-    "background": {
-      "scripts": ["background.js"]
+    "description": "Generate UML diagrams from text",
+    "icons":{
+        "16":"icon.png"
+    },
+
+    "app":{
+        "background": {
+            "scripts": ["background.js"],
+            "persistent":false
+        }
+    },
+
+    "commands": {
+        "test-command-thingie": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+U"
+            },
+            "description": "Start UML Diagram Editor",
+            "global": true
+        }
+    },
+
+    "permissions":[
+        "contextMenus",
+        "storage",
+        {"fileSystem": ["write", "retainEntries", "directory"]}
+    ],
+
+    "file_handlers": {
+        "text": {
+            "types": [
+                "text/*"
+            ]
+        }
     }
-  },
-
-  "icons":{
-    "16":"icon.png"
-  }
 
 }
 
 
 /**
-"activeTab"	  Requests that the extension be granted permissions according to the activeTab specification.
-"alarms"	  Gives your extension access to the chrome.alarms API.
-"background"  Makes Chrome start up early and and shut down late, so that apps and extensions can have a longer life.
-              When any installed hosted app, packaged app, or extension has "background" permission, Chrome runs (invisibly) as soon as the user logs into their computer—before the user launches Chrome. The "background" permission also makes Chrome continue running (even after its last window is closed) until the user explicitly quits Chrome.
-              Note: Disabled apps and extensions are treated as if they aren't installed.
-              You typically use the "background" permission with a background page, event page or (for hosted apps) a background window.
+ "activeTab"	  Requests that the extension be granted permissions according to the activeTab specification.
+ "alarms"	  Gives your extension access to the chrome.alarms API.
+ "background"  Makes Chrome start up early and and shut down late, so that apps and extensions can have a longer life.
+ When any installed hosted app, packaged app, or extension has "background" permission, Chrome runs (invisibly) as soon as the user logs into their computer—before the user launches Chrome. The "background" permission also makes Chrome continue running (even after its last window is closed) until the user explicitly quits Chrome.
+ Note: Disabled apps and extensions are treated as if they aren't installed.
+ You typically use the "background" permission with a background page, event page or (for hosted apps) a background window.
 
-"bookmarks"	            Gives your extension access to the chrome.bookmarks API.
-"browsingData"	        Gives your extension access to the chrome.browsingData API.
-"clipboardRead"	        Required if the extension or app uses document.execCommand('paste').
-"clipboardWrite"	    Indicates the extension or app uses document.execCommand('copy') or document.execCommand('cut'). This permission is required for hosted apps; it's recommended for extensions and packaged apps.
-"contentSettings"	    Gives your extension access to the chrome.contentSettings API.
-"contextMenus"	        Gives your extension access to the chrome.contextMenus API.
-"cookies"	            Gives your extension access to the chrome.cookies API.
-"copresence"	        Gives your extension access to the chrome.copresence API.
-"debugger"	            Gives your extension access to the chrome.debugger API.
-"declarativeContent"    Gives your extension access to the chrome.declarativeContent API.
-"declarativeWebRequest" Gives your extension access to the chrome.declarativeWebRequest API.
-"desktopCapture"	    Gives your extension access to the chrome.desktopCapture API.
-"dns"	                Gives your extension access to the chrome.dns API.
-"documentScan"	        Gives your extension access to the chrome.documentScan API.
-"downloads"	            Gives your extension access to the chrome.downloads API.
-"enterprise.platformKeys"	Gives your extension access to the chrome.enterprise.platformKeys API.
-"experimental"	        Required if the extension or app uses any chrome.experimental.* APIs.
-"fileBrowserHandler"    Gives your extension access to the chrome.fileBrowserHandler API.
-"fileSystemProvider"    Gives your extension access to the chrome.fileSystemProvider API.
-"fontSettings"	        Gives your extension access to the chrome.fontSettings API.
-"gcm"	                Gives your extension access to the chrome.gcm API.
-"geolocation"           Allows the extension or app to use the proposed HTML5 geolocation API without prompting the user for permission.
-"history"	            Gives your extension access to the chrome.history API.
-"identity"	            Gives your extension access to the chrome.identity API.
-"idle"	                Gives your extension access to the chrome.idle API.
-"idltest"	            Gives your extension access to the chrome.idltest API.
-"infobars"	            Gives your extension access to the chrome.infobars API.
-"location"	            Gives your extension access to the chrome.location API.
-"management"	        Gives your extension access to the chrome.management API.
-"nativeMessaging"	    Gives your extension access to the native messaging API.
-"notificationProvider"  Gives your extension access to the chrome.notificationProvider API.
-"notifications"	        Allows the extension to use the proposed HTML5 notification API without calling permission methods (such as checkPermission()). For more information see Desktop Notifications.
-"pageCapture"	        Gives your extension access to the chrome.pageCapture API.
-"power"	                Gives your extension access to the chrome.power API.
-"privacy"	            Gives your extension access to the chrome.privacy API.
-"processes"	            Gives your extension access to the chrome.processes API.
-"proxy"	                Gives your extension access to the chrome.proxy API.
-"pushMessaging"	        Gives your extension access to the chrome.pushMessaging API.
-"sessions"	            Gives your extension access to the chrome.sessions API.
-"signedInDevices"	    Gives your extension access to the chrome.signedInDevices API.
-"storage"	            Gives your extension access to the chrome.storage API.
-"system.cpu"	        Gives your extension access to the chrome.system.cpu API.
-"system.display"	    Gives your extension access to the chrome.system.display API.
-"system.memory"	        Gives your extension access to the chrome.system.memory API.
-"system.storage"	    Gives your extension access to the chrome.system.storage API.
-"tabCapture"	        Gives your extension access to the chrome.tabCapture API.
-"tabs"	                Gives your extension access to privileged fields of the Tab objects used by several APIs including chrome.tabs and chrome.windows. In many circumstances your extension will not need to declare the "tabs" permission to make use of these APIs.
-"topSites"	            Gives your extension access to the chrome.topSites API.
-"tts"	                Gives your extension access to the chrome.tts API.
-"ttsEngine"	            Gives your extension access to the chrome.ttsEngine API.
-"unlimitedStorage"	    Provides an unlimited quota for storing HTML5 client-side data, such as databases and local storage files. Without this permission, the extension or app is limited to 5 MB of local storage.
-                        Note: This permission applies only to Web SQL Database and application cache (see issue 58985). Also, it doesn't currently work with wildcard subdomains such as http://*.example.com.
-"vpnProvider"	        Gives your extension access to the chrome.vpnProvider API.
-"webNavigation"	        Gives your extension access to the chrome.webNavigation API.
-"webRequest"	        Gives your extension access to the chrome.webRequest API.
-"webRequestBlocking"    Required if the extension uses the chrome.webRequest API in a blocking fashion.
-**/
+ "bookmarks"	            Gives your extension access to the chrome.bookmarks API.
+ "browsingData"	        Gives your extension access to the chrome.browsingData API.
+ "clipboardRead"	        Required if the extension or app uses document.execCommand('paste').
+ "clipboardWrite"	    Indicates the extension or app uses document.execCommand('copy') or document.execCommand('cut'). This permission is required for hosted apps; it's recommended for extensions and packaged apps.
+ "contentSettings"	    Gives your extension access to the chrome.contentSettings API.
+ "contextMenus"	        Gives your extension access to the chrome.contextMenus API.
+ "cookies"	            Gives your extension access to the chrome.cookies API.
+ "copresence"	        Gives your extension access to the chrome.copresence API.
+ "debugger"	            Gives your extension access to the chrome.debugger API.
+ "declarativeContent"    Gives your extension access to the chrome.declarativeContent API.
+ "declarativeWebRequest" Gives your extension access to the chrome.declarativeWebRequest API.
+ "desktopCapture"	    Gives your extension access to the chrome.desktopCapture API.
+ "dns"	                Gives your extension access to the chrome.dns API.
+ "documentScan"	        Gives your extension access to the chrome.documentScan API.
+ "downloads"	            Gives your extension access to the chrome.downloads API.
+ "enterprise.platformKeys"	Gives your extension access to the chrome.enterprise.platformKeys API.
+ "experimental"	        Required if the extension or app uses any chrome.experimental.* APIs.
+ "fileBrowserHandler"    Gives your extension access to the chrome.fileBrowserHandler API.
+ "fileSystemProvider"    Gives your extension access to the chrome.fileSystemProvider API.
+ "fontSettings"	        Gives your extension access to the chrome.fontSettings API.
+ "gcm"	                Gives your extension access to the chrome.gcm API.
+ "geolocation"           Allows the extension or app to use the proposed HTML5 geolocation API without prompting the user for permission.
+ "history"	            Gives your extension access to the chrome.history API.
+ "identity"	            Gives your extension access to the chrome.identity API.
+ "idle"	                Gives your extension access to the chrome.idle API.
+ "idltest"	            Gives your extension access to the chrome.idltest API.
+ "infobars"	            Gives your extension access to the chrome.infobars API.
+ "location"	            Gives your extension access to the chrome.location API.
+ "management"	        Gives your extension access to the chrome.management API.
+ "nativeMessaging"	    Gives your extension access to the native messaging API.
+ "notificationProvider"  Gives your extension access to the chrome.notificationProvider API.
+ "notifications"	        Allows the extension to use the proposed HTML5 notification API without calling permission methods (such as checkPermission()). For more information see Desktop Notifications.
+ "pageCapture"	        Gives your extension access to the chrome.pageCapture API.
+ "power"	                Gives your extension access to the chrome.power API.
+ "privacy"	            Gives your extension access to the chrome.privacy API.
+ "processes"	            Gives your extension access to the chrome.processes API.
+ "proxy"	                Gives your extension access to the chrome.proxy API.
+ "pushMessaging"	        Gives your extension access to the chrome.pushMessaging API.
+ "sessions"	            Gives your extension access to the chrome.sessions API.
+ "signedInDevices"	    Gives your extension access to the chrome.signedInDevices API.
+ "storage"	            Gives your extension access to the chrome.storage API.
+ "system.cpu"	        Gives your extension access to the chrome.system.cpu API.
+ "system.display"	    Gives your extension access to the chrome.system.display API.
+ "system.memory"	        Gives your extension access to the chrome.system.memory API.
+ "system.storage"	    Gives your extension access to the chrome.system.storage API.
+ "tabCapture"	        Gives your extension access to the chrome.tabCapture API.
+ "tabs"	                Gives your extension access to privileged fields of the Tab objects used by several APIs including chrome.tabs and chrome.windows. In many circumstances your extension will not need to declare the "tabs" permission to make use of these APIs.
+ "topSites"	            Gives your extension access to the chrome.topSites API.
+ "tts"	                Gives your extension access to the chrome.tts API.
+ "ttsEngine"	            Gives your extension access to the chrome.ttsEngine API.
+ "unlimitedStorage"	    Provides an unlimited quota for storing HTML5 client-side data, such as databases and local storage files. Without this permission, the extension or app is limited to 5 MB of local storage.
+ Note: This permission applies only to Web SQL Database and application cache (see issue 58985). Also, it doesn't currently work with wildcard subdomains such as http://*.example.com.
+ "vpnProvider"	        Gives your extension access to the chrome.vpnProvider API.
+ "webNavigation"	        Gives your extension access to the chrome.webNavigation API.
+ "webRequest"	        Gives your extension access to the chrome.webRequest API.
+ "webRequestBlocking"    Required if the extension uses the chrome.webRequest API in a blocking fashion.
+ **/

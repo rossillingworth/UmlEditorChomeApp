@@ -27,11 +27,30 @@
       -
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
      -->
-    <script src="popup.js"></script>
+    <script src="lodash.js"></script>
+    <script src="window.js"></script>
   </head>
+
   <body>
     <div id="status">OLA</div>
-    <!--<img id="image-result" hidden>-->
+
+    <table>
+        <tr>
+            <td>
+                <input type="button" value="Open" id="buttonOpen">
+                <input type="button" value="Save" id="buttonSave">
+                <br/>
+                <input type="text" id="inputFileInfo" disabled="disabled">
+            </td>
+            <td>
+                <textarea id="log" name="log"></textarea>
+            </td>
+        </tr>
+    </table>
+
+
+    <br/>
+    <textarea id="editor" name="editor"></textarea>
   </body>
 </html>
 
