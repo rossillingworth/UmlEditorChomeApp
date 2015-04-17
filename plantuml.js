@@ -52,23 +52,41 @@ function encode6bit(b) {
     return '?';
 }
 
-function refreshDiagram(imgId,contents) {
-    //UTF8
+//function refreshDiagram(imgId,contents) {
+//    //UTF8
+//    contents = unescape(encodeURIComponent(contents));
+//    var src = "http://www.plantuml.com/plantuml/img/"+encode64(deflate(contents, 9));
+//
+//    var remoteImage = new RAL.RemoteImage({
+//        src:src,
+//        element:$(imgId)
+//    });
+//
+//    RAL.Queue.add(remoteImage);
+//
+//    RAL.Queue.setMaxConnections(4);
+//    RAL.Queue.start();
+//}
+
+
+function refreshDiagram(imgId,contents){
+
     contents = unescape(encodeURIComponent(contents));
     var src = "http://www.plantuml.com/plantuml/img/"+encode64(deflate(contents, 9));
 
-    var remoteImage = new RAL.RemoteImage({
-        src:src,
-        element:$(imgId)
-    });
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', src, true);
+    xhr.responseType = 'blob';
+    xhr.onload = function(e) {
+        var img = $(imgId);
+        img.src = window.URL.createObjectURL(this.response);
+        document.body.appendChild(img);
+        console.log("Image loaded");
+    };
 
-    RAL.Queue.add(remoteImage);
+    xhr.send();
 
-    RAL.Queue.setMaxConnections(4);
-    RAL.Queue.start();
 }
-
-
 
 
 

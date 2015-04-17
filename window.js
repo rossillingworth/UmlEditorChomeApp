@@ -7,6 +7,7 @@ console.log("script loaded");
 var PlantUml = {
 
     currentFileEntry:null,
+    title:"UML Diagram Editor",
 
     /**
      * HTML ELEMENT References
@@ -71,6 +72,7 @@ var PlantUml = {
                 reader.onerror = function(e){console.error(e)};
                 reader.onload = function(e) {
                     PlantUml.textarea.value = e.target.result;
+                    autoresize(PlantUml.textarea);
                 };
                 reader.readAsText(file);
             });
@@ -93,6 +95,9 @@ var PlantUml = {
                     PlantUml.log("File Size",data.size);
                     console.log("File:",data);
                 });
+                // Title
+                PlantUml.outputTextFileInfo.value = fileEntry.name;
+                document.title = PlantUml.title + ": " + fileEntry.name;
             }
             else {
                 document.querySelector('#file_path').value = theEntry.fullPath;
@@ -215,3 +220,28 @@ var FileSystem = {
 }
 
 window.addEventListener("load", PlantUml.init);
+
+document.addEventListener("keypress",function(e){
+    if(e.ctrlKey&&(e.keyCode==10||e.keyCode==13)){
+        PlantUml.generate();
+    }
+    autoresize(PlantUml.textarea);
+});
+
+/**
+ * Fit textarea to text
+ * Delay allows for screen update to complete
+ *
+ * @param textarea
+ */
+function autoresize(textarea) {
+    setTimeout(function(){
+        //height
+        textarea.style.height = '0px';     //Reset height, so that it not only grows but also shrinks
+        textarea.style.height = (textarea.scrollHeight) + 'px';    //Set new height
+        // width
+//        textarea.style.width = '0px';     //Reset width, so that it not only grows but also shrinks
+//        textarea.style.width = (textarea.scrollWidth-10) + 'px';    //Set new width
+
+    },1);
+}

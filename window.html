@@ -6,8 +6,12 @@
  -->
 <html>
 <head>
-    <title>Getting Started Extension's Popup</title>
+    <title>UML Diagram Editor</title>
     <style>
+        html, body {
+            overflow-y: visible;
+            overflow-x: visible;
+        }
         body {
             font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
             font-size: 100%;
@@ -54,16 +58,21 @@
         </td>
     </tr>
 </table>
-
-
 <br/>
-<textarea id="editor" name="editor"></textarea>
+
+<span style="float:left;border:1px solid red;">
+<textarea id="editor" name="editor" rows="20" cols="80"></textarea>
 <br/>
 <input type="button" value="Generate" id="buttonGenerate">
-<br/>
+</span>
 
+<div style="float:left;border:1px solid green;padding-bottom: 20px;">
 <img id="diagram">
+</div>
 
+<br style="clear:both;"/>
+<div style="height:50px;">&nbsp;</div>
+<input type="text" id="statusBar" style="position: fixed; bottom: 0px;left: 0px;width: 99%;" value="status bar">
 </body>
 </html>
 
