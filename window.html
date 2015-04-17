@@ -5,20 +5,20 @@
  value "window.html".
  -->
 <html>
-  <head>
+<head>
     <title>Getting Started Extension's Popup</title>
     <style>
-      body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
-      }
-      #status {
-        /* avoid an excessively wide status text */
-        white-space: pre;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 400px;
-      }
+        body {
+            font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+            font-size: 100%;
+        }
+        /*#status {*/
+            /* avoid an excessively wide status text */
+            /*white-space: pre;*/
+            /*text-overflow: ellipsis;*/
+            /*overflow: hidden;*/
+            /*max-width: 400px;*/
+        /*}*/
     </style>
 
     <!--
@@ -28,29 +28,42 @@
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
      -->
     <script src="lodash.js"></script>
+    <script src="app.resource.loader.min.beautified.js"></script>
+    <script src="rawdeflate.js"></script>
+
     <script src="window.js"></script>
-  </head>
+    <script src="plantuml.js"></script>
 
-  <body>
-    <div id="status">OLA</div>
+</head>
 
-    <table>
-        <tr>
-            <td>
-                <input type="button" value="Open" id="buttonOpen">
-                <input type="button" value="Save" id="buttonSave">
-                <br/>
-                <input type="text" id="inputFileInfo" disabled="disabled">
-            </td>
-            <td>
-                <textarea id="log" name="log"></textarea>
-            </td>
-        </tr>
-    </table>
+<body>
+<div id="status">OLA</div>
+
+<table>
+    <tr>
+        <td>
+            <input type="button" value="New" id="buttonNew">
+            <input type="button" value="Open" id="buttonOpen">
+            <input type="button" value="Save" id="buttonSave">
+            <input type="button" value="Save As.." id="buttonSaveAs">
+            <br/>
+            <input type="text" id="inputFileInfo" disabled="disabled">
+        </td>
+        <td>
+            <textarea id="log" name="log"></textarea>
+        </td>
+    </tr>
+</table>
 
 
-    <br/>
-    <textarea id="editor" name="editor"></textarea>
-  </body>
+<br/>
+<textarea id="editor" name="editor"></textarea>
+<br/>
+<input type="button" value="Generate" id="buttonGenerate">
+<br/>
+
+<img id="diagram">
+
+</body>
 </html>
 
