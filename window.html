@@ -14,16 +14,16 @@
       -
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
      -->
-    <script src="lodash.js"></script>
-    <!--<script src="app.resource.loader.min.beautified.js"></script>-->
-    <script src="rawdeflate.js"></script>
-
+    <script src="js/lodash.js"></script>
+    <script src="js/JS.js"></script>
+    <script src="js/rawdeflate.js"></script>
     <script src="js/codemirror/lib/codemirror.js"></script>
+
+    <script src="js/chrome.filesystem.js"></script>
+    <script src="js/plantuml.js"></script>
+    <script src="js/window.js"></script>
+
     <link rel="stylesheet" href="js/codemirror/lib/codemirror.css">
-
-    <script src="window.js"></script>
-    <script src="plantuml.js"></script>
-
     <link rel="stylesheet" href="css/style.css"></head>
 
     <style>
@@ -73,8 +73,18 @@
             font-size: large;
         }
         button.choosen{
-            background-color: green;
+            background-color: lightgray;
         }
+
+        #helpContainer{
+            z-index: 1000;
+            position:absolute;
+            left:10%;
+            top:10%;
+            width:80%;
+            height:80%;
+        }
+
     </style>
 
 </head>
@@ -97,8 +107,9 @@
     <button type="button" id="buttonHelp" title="Help">             <span class="glyph-icon icon-question">&nbsp;Help</span></button>
 </div>
 
+<!--<iframe id="helpContainer" src="windowHelp.html"></iframe>-->
 
-<div style="float:left;height: auto;width:50%;max-width: 50%;" class="section">
+<div id="editorContainer" style="float:left;height: auto;width:50%;max-width: 50%;" class="section">
 <textarea id="editor" name="editor" ></textarea>
 </div>
 

@@ -69,7 +69,7 @@ function encode6bit(b) {
 //}
 
 
-function refreshDiagram(imgId,contents){
+function refreshDiagram(contents,imgId,callbackSuccess){
 
     contents = unescape(encodeURIComponent(contents));
     var src = "http://www.plantuml.com/plantuml/img/"+encode64(deflate(contents, 9));
@@ -82,6 +82,7 @@ function refreshDiagram(imgId,contents){
         img.src = window.URL.createObjectURL(this.response);
         //document.body.appendChild(img);
         console.log("Image loaded");
+        callbackSuccess();
     };
 
     xhr.send();

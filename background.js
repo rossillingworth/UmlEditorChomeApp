@@ -9,7 +9,7 @@ chrome.app.runtime.onLaunched.addListener(function(someData) {
             'left':0,
             'width': 800,
             'height': 500
-        },
+        }
 //        'frameOptions':{
 //            'type':'chrome',
 //            'activeColor':'GREEN',
