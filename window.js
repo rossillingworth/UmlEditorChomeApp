@@ -4,7 +4,9 @@
 
 console.log("script loaded");
 
-var PlantUml = {
+var App = {
+
+    STATE:{},
 
     currentFileEntry:null,
     title:"UML Diagram Editor",
@@ -14,35 +16,65 @@ var PlantUml = {
      */
     buttonOpen:null,
     buttonSave:null,
-    outputTextFileInfo:null,
     textarea:null,
-    logTextarea:null,
+
+    myCodeMirror:null,
+    statusBar:null,
 
     /**
      * Initialise stuff
      */
     init:function init(){
-        PlantUml.buttonNew          = document.querySelector("#buttonNew");
-        PlantUml.buttonOpen         = document.querySelector("#buttonOpen");
-        PlantUml.buttonSave         = document.querySelector("#buttonSave");
-        PlantUml.buttonSaveAs       = document.querySelector("#buttonSaveAs");
-        PlantUml.buttonGenerate     = document.querySelector("#buttonGenerate");
+        App.buttonNew          = document.querySelector("#buttonNew");
+        App.buttonOpen         = document.querySelector("#buttonOpen");
+        App.buttonSave         = document.querySelector("#buttonSave");
+        App.buttonSaveAs       = document.querySelector("#buttonSaveAs");
+        App.buttonGenerate     = document.querySelector("#buttonGenerate");
 
-        PlantUml.outputTextFileInfo = document.querySelector("#inputFileInfo");
-        PlantUml.textarea           = document.querySelector("#editor");
-        PlantUml.logTextarea        = document.querySelector("#log");
+        App.outputTextFileInfo = document.querySelector("#inputFileInfo");
+        App.textarea           = document.querySelector("#editor");
+        App.statusBar          = document.querySelector("#statusBar");
 
-        PlantUml.buttonNew.addEventListener("click",PlantUml.file.new);
-        PlantUml.buttonOpen.addEventListener("click",PlantUml.file.choose);
-        PlantUml.buttonSave.addEventListener("click",PlantUml.file.save);
-        PlantUml.buttonSaveAs.addEventListener("click",PlantUml.file.saveAs);
-        PlantUml.buttonGenerate.addEventListener("click",PlantUml.generate);
+        App.buttonNew.addEventListener("click",App.file.new);
+        App.buttonOpen.addEventListener("click",App.file.choose);
+        App.buttonSave.addEventListener("click",App.file.save);
+        App.buttonSaveAs.addEventListener("click",App.file.saveAs);
+        App.buttonGenerate.addEventListener("click",App.generate);
 
-        PlantUml.log("loaded");
+        App.buttonSave.disabled = true;
+        App.buttonSaveAs.disabled = true;
+        App.buttonGenerate.disabled = true;
+
+        App.myCodeMirror = CodeMirror.fromTextArea(App.textarea,{
+            //theme:"eclipse",
+            lineNumbers:true,
+            //viewportMargin:Infinity,
+            //autofocus:true,
+            redraw:function(){console.log("redrawn");}
+        });
+
+        App.generateDebounced = _.debounce(App.generate,3000,{leading:false,maxWait:1000,trailing:true});
+
+        // handle editor text changed event
+        App.myCodeMirror.on("change",function(){
+            App.myCodeMirror.save();
+            //todo checkbox on/off
+            App.generateDebounced();
+            App.log("changed");
+        });
+
+        App.log("loaded codemirror");
+        App.status("loaded");
+    },
+
+    getContents:function(){
+        App.myCodeMirror.save();
+        return App.textarea.value;
     },
 
     generate:function generate(){
-        refreshDiagram("diagram",PlantUml.textarea.value);
+        App.log("generating img");
+        refreshDiagram("diagram",App.getContents());
     },
 
     /**
@@ -57,9 +89,9 @@ var PlantUml = {
         choose:function choose(){
             console.log("Choose file");
             try{
-                var config = {type: 'openFile', accepts: PlantUml.file.accepts}
+                var config = {type: 'openFile', accepts: App.file.accepts}
                 chrome.fileSystem.chooseEntry(config, function(choosen){
-                    !!choosen && PlantUml.file.load(choosen);
+                    !!choosen && App.file.load(choosen);
                 });
             }catch(e){
                 console.log(e);
@@ -71,16 +103,18 @@ var PlantUml = {
                 var reader = new FileReader();
                 reader.onerror = function(e){console.error(e)};
                 reader.onload = function(e) {
-                    PlantUml.textarea.value = e.target.result;
-                    autoresize(PlantUml.textarea);
+                    App.textarea.value = e.target.result;
+                    App.myCodeMirror.getDoc().setValue(e.target.result);
+                    App.generate();
+                    autoresize(App.textarea);
                 };
                 reader.readAsText(file);
             });
             // use local storage to retain access to this file
             chrome.storage.local.set({'chosenFile': chrome.fileSystem.retainEntry(fileEntry)});
-            PlantUml.currentFileEntry = fileEntry;
+            App.currentFileEntry = fileEntry;
             // update display with file info
-            PlantUml.file.showInfo(fileEntry);
+            App.file.showInfo(fileEntry);
         },
         /**
          * Display File Info
@@ -89,15 +123,14 @@ var PlantUml = {
         showInfo:function showInfo(fileEntry){
             if (fileEntry.isFile) {
                 chrome.fileSystem.getDisplayPath(fileEntry, function(path) {
-                    PlantUml.log("File path:",path);
+                    App.log("File path:",path);
                 });
                 fileEntry.getMetadata(function(data) {
-                    PlantUml.log("File Size",data.size);
-                    console.log("File:",data);
+                    App.log("File:",data);
                 });
                 // Title
-                PlantUml.outputTextFileInfo.value = fileEntry.name;
-                document.title = PlantUml.title + ": " + fileEntry.name;
+                App.status("Loaded:" + fileEntry.name);
+                App.title(fileEntry.name);
             }
             else {
                 document.querySelector('#file_path').value = theEntry.fullPath;
@@ -110,8 +143,8 @@ var PlantUml = {
          */
         save:function save(){
             console.log("save..");
-            if(PlantUml.currentFileEntry){
-                chrome.fileSystem.getWritableEntry(PlantUml.currentFileEntry,PlantUml.file.writeToFile);
+            if(App.currentFileEntry){
+                chrome.fileSystem.getWritableEntry(App.currentFileEntry,App.file.writeToFile);
             }else{
                 console.error("SAVE CALLED IN ERROR: no file allocated")
             }
@@ -122,12 +155,13 @@ var PlantUml = {
          */
         saveAs:function saveAs(){
             console.log("save as..");
-            var config = {type: 'saveFile', suggestedName: PlantUml.currentFileEntry.name};
-            chrome.fileSystem.chooseEntry(config, PlantUml.file.writeToFile);
+            var config = {type: 'saveFile', suggestedName: App.currentFileEntry.name};
+            chrome.fileSystem.chooseEntry(config, App.file.writeToFile);
         },
 
         writeToFile:function(writableEntry){
-            var contents = PlantUml.textarea.value;
+            myCodeMirror.save();
+            var contents = App.getContents();
             var blob = new Blob([contents], {type: 'text/plain'});
             FileSystem.writeFileEntry(writableEntry, blob, function(e) {
                 console.log('Write complete :)',writableEntry.name);
@@ -140,10 +174,23 @@ var PlantUml = {
      *
      */
     log:function log(){
-        _.forEach(arguments,function(m){
-            PlantUml.logTextarea.value = PlantUml.logTextarea.value + "\n" + m.toString();
-            // todo: scroll to bottom
-        });
+        return window.console && console.log && Function.apply.call(console.log, console, arguments);
+    },
+    status:function(msg){
+        App.statusBar.value = msg;
+    },
+    title:function title(title){
+        document.title = App.title + ": " + title;
+    },
+    setState:function(state){
+        switch (state){
+            case "MODIFIED":
+                // activate save / saveAs
+                break;
+            case "SAVED":
+                // deactivate save / saveAs
+                break;
+        }
     }
 }
 
@@ -180,7 +227,7 @@ var FileSystem = {
                     writer.write(opt_blob);
                 });
             } else {
-                PlantUml.currentFileEntry.file(function(file) {
+                App.currentFileEntry.file(function(file) {
                     writer.truncate(file.fileSize);
                     waitForIO(writer, function() {
                         writer.seek(0);
@@ -219,13 +266,13 @@ var FileSystem = {
     }
 }
 
-window.addEventListener("load", PlantUml.init);
+window.addEventListener("load", App.init);
 
 document.addEventListener("keypress",function(e){
     if(e.ctrlKey&&(e.keyCode==10||e.keyCode==13)){
-        PlantUml.generate();
+        App.generate();
     }
-    autoresize(PlantUml.textarea);
+    autoresize(App.textarea);
 });
 
 /**

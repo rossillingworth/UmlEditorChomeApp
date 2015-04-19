@@ -80,7 +80,7 @@ function refreshDiagram(imgId,contents){
     xhr.onload = function(e) {
         var img = $(imgId);
         img.src = window.URL.createObjectURL(this.response);
-        document.body.appendChild(img);
+        //document.body.appendChild(img);
         console.log("Image loaded");
     };
 

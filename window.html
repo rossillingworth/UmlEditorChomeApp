@@ -7,23 +7,6 @@
 <html>
 <head>
     <title>UML Diagram Editor</title>
-    <style>
-        html, body {
-            overflow-y: visible;
-            overflow-x: visible;
-        }
-        body {
-            font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-            font-size: 100%;
-        }
-        /*#status {*/
-            /* avoid an excessively wide status text */
-            /*white-space: pre;*/
-            /*text-overflow: ellipsis;*/
-            /*overflow: hidden;*/
-            /*max-width: 400px;*/
-        /*}*/
-    </style>
 
     <!--
       - JavaScript and HTML must be in separate files: see our Content Security
@@ -32,47 +15,103 @@
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
      -->
     <script src="lodash.js"></script>
-    <script src="app.resource.loader.min.beautified.js"></script>
+    <!--<script src="app.resource.loader.min.beautified.js"></script>-->
     <script src="rawdeflate.js"></script>
+
+    <script src="js/codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="js/codemirror/lib/codemirror.css">
 
     <script src="window.js"></script>
     <script src="plantuml.js"></script>
 
+    <link rel="stylesheet" href="css/style.css"></head>
+
+    <style>
+        html, body {
+            margin: 0px;
+            padding: 0px;
+            overflow-y: visible;
+            overflow-x: visible;
+        }
+        body {
+            background-color: white;
+            font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+            font-size: 100%;
+        }
+        /*#status {*/
+        /* avoid an excessively wide status text */
+        /*white-space: pre;*/
+        /*text-overflow: ellipsis;*/
+        /*overflow: hidden;*/
+        /*max-width: 400px;*/
+        /*}*/
+        .section{
+            /*border: double lightgreen 2px;*/
+            /*border: double lightgray 2px;*/
+            /*border-radius: 5px;*/
+            /*padding: 5px;*/
+        }
+
+        .CodeMirror {
+            border: 1px solid #eee;
+            height: auto;
+        }
+        .CodeMirror-scroll {
+            height: auto;
+            overflow-y: hidden;
+            overflow-x: auto;
+        }
+
+        .outputImg{
+            float:left;
+            padding-bottom: 20px;
+            right:0px;
+            max-width: 49%;
+        }
+
+        button{
+            font-size: large;
+        }
+        button.choosen{
+            background-color: green;
+        }
+    </style>
+
 </head>
 
 <body>
-<div id="status">OLA</div>
-
-<table>
-    <tr>
-        <td>
-            <input type="button" value="New" id="buttonNew">
-            <input type="button" value="Open" id="buttonOpen">
-            <input type="button" value="Save" id="buttonSave">
-            <input type="button" value="Save As.." id="buttonSaveAs">
-            <br/>
-            <input type="text" id="inputFileInfo" disabled="disabled">
-        </td>
-        <td>
-            <textarea id="log" name="log"></textarea>
-        </td>
-    </tr>
-</table>
-<br/>
-
-<span style="float:left;border:1px solid red;">
-<textarea id="editor" name="editor" rows="20" cols="80"></textarea>
-<br/>
-<input type="button" value="Generate" id="buttonGenerate">
-</span>
-
-<div style="float:left;border:1px solid green;padding-bottom: 20px;">
-<img id="diagram">
+<div style="width:100%;background-color: white;border-bottom: 1px solid lightgray;padding: 0px 2px 2px 2px;" class="section glyph fs2">
+    <!--file-->
+    <button type="button" id="buttonNew" title="New">               <span class="icon-file-empty">&nbsp;New</span></button>
+    <button type="button" id="buttonOpen" title="Open File">        <span class="glyph-icon icon-folder-open">&nbsp;Open</span></button>
+    <button type="button" id="buttonSave" title="Save">             <span class="glyph-icon icon-floppy-disk">&nbsp;Save</span></button>
+    <button type="button" id="buttonSaveAs" title="Save As">        <span class="glyph-icon icon-floppy-disk">&nbsp;SaveAs</span></button>
+    <!--Img-->
+    <button type="button" id="buttonGenerate" title="Refresh">
+        <span class="glyph-icon icon-loop2">&nbsp;Refresh</span>
+        <input type="checkbox" style="padding: 0px;margin: 0px;" checked>
+    </button>
+    <button type="button" id="buttonHorizontal" title="Horizontal" class="choosen"> <span class="glyph-icon icon-panorama-horizontal">&nbsp;Horizontal</span></button>
+    <button type="button" id="buttonVertical" title="Vertical">     <span class="glyph-icon icon-panorama-vertical">&nbsp;Vertical</span></button>
+    <!--Help-->
+    <button type="button" id="buttonHelp" title="Help">             <span class="glyph-icon icon-question">&nbsp;Help</span></button>
 </div>
+
+
+<div style="float:left;height: auto;width:50%;max-width: 50%;" class="section">
+<textarea id="editor" name="editor" ></textarea>
+</div>
+
+
+<img class="outputImg" id="diagram">
+
 
 <br style="clear:both;"/>
 <div style="height:50px;">&nbsp;</div>
-<input type="text" id="statusBar" style="position: fixed; bottom: 0px;left: 0px;width: 99%;" value="status bar">
+<div style="width:100%;overflow: hidden;position: fixed; bottom: 0px;left: 0px;z-index: 999;">
+    <input type="text" id="statusBar" style="width: 100%;" value="status bar">
+</div>
+
 </body>
 </html>
 
