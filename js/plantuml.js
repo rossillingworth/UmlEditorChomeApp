@@ -78,8 +78,19 @@ function refreshDiagram(contents,imgId,callbackSuccess){
     xhr.open('GET', src, true);
     xhr.responseType = 'blob';
     xhr.onload = function(e) {
+        var blob = this.response;
         var img = $(imgId);
-        img.src = window.URL.createObjectURL(this.response);
+
+        // create a FileURL
+        //img.src = window.URL.createObjectURL(this.response);
+
+        // create a dataURL
+        var reader= new FileReader();
+        reader.onload = function(e){
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(blob);
+
         //document.body.appendChild(img);
         console.log("Image loaded");
         callbackSuccess();

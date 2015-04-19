@@ -69,10 +69,15 @@ var App = {
         });
         // handle editor text changed event
         App.myCodeMirror.on("change",function(){
+            App.log("change detected");
             App.myCodeMirror.save();
-            //todo checkbox on/off
-            App.generateDebounced();
-            App.log("changed");
+            //debugger;
+            var el = JS.DOM.getElement("checkboxGenerateAuto",true);
+            var val = JS.DOM.FORM.getValue(el);
+            if(val == "true"){
+                App.log("update image triggered");
+                App.generateDebounced();
+            }
         });
     },
 
@@ -87,7 +92,7 @@ var App = {
         App.buttonVertical.addEventListener("click",function(){App.setState(App.STATE.VERTICAL)});
         // help
         App.buttonHelp.addEventListener("click",function(){
-            chrome.app.window.create('windowHelp.html');//, optionsDictionary, callback);
+            App.showHelp();
         });
         // CTRL+ENTER -> regen image
         document.addEventListener("keypress",function(e){
@@ -105,11 +110,27 @@ var App = {
     generate:function generate(){
         App.log("generating img");
         if(App.state==App.STATE.EDITING){
-            App.status("image loading...")
-            refreshDiagram(App.getContents(),"diagram",function(){App.status("image loaded")});
+            App.status("loading diagram...")
+            refreshDiagram(App.getContents(),"diagram",function(){App.status("diagram updated")});
         }else{
             App.log("Generating Blocked");
         }
+    },
+
+    showHelp:function(){
+        // Set new window to be offset from current window.
+        var newWindowOffset = 100;
+        var innerBounds = chrome.app.window.current().innerBounds;
+        innerBounds.left = (innerBounds.left + newWindowOffset) % (screen.width - innerBounds.width);
+        innerBounds.top = (innerBounds.top + newWindowOffset) % (screen.height - innerBounds.height);
+        var optionsDictionary = {};
+        optionsDictionary.innerBounds = {};
+        optionsDictionary.innerBounds.left = innerBounds.left;
+        optionsDictionary.innerBounds.top = innerBounds.top;
+        optionsDictionary.innerBounds.width = innerBounds.width;
+        optionsDictionary.innerBounds.height = innerBounds.height;
+        //
+        chrome.app.window.create('windowHelp.html', optionsDictionary);//, callback);
     },
 
     /**
@@ -212,6 +233,8 @@ var App = {
     },
     status:function(msg){
         App.statusBar.value = msg;
+        App["timeoutId"] && clearTimeout(App.timeoutId);
+        App.timeoutId = setTimeout(function(){App.statusBar.value = "";},5000);
     },
     title:function title(title){
         document.title = App.title + ": " + title;
