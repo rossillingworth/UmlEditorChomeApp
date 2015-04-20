@@ -1,0 +1,64 @@
+@startuml
+
+/'
+This is an example Sequence diagram
+Showing a fictional web feature flow
+It is easy to see roles & responsibilities for each component
+and easy to change them too...
+'/
+
+title "Story Feature Example - Sequence Diagram"
+
+'This is a single line comment
+
+/'
+This is a multi-line comment
+One another line
+'/
+
+actor User
+'boundary Proxy
+participant UIServer as UI
+participant API
+
+User -> UI: LINK: goto /account page
+activate UI
+UI -> User:
+deactivate UI
+
+activate User
+note over User
+  Requirments:
+  UI: Setting Page
+  Click delete button
+end note
+
+' user requests account/delete page
+User -> UI: /account/delete
+deactivate User
+activate UI
+UI -> User:
+deactivate UI
+
+' confirmation form
+activate User
+note over User
+  UI: Form
+  Are you sure?
+end note
+
+
+User -> UI: POST /account/delete
+deactivate User
+activate UI
+
+note over UI: Verify: user has confirmed
+UI -> API: /account/delete
+activate API
+API -> API: delete
+API -> UI: done
+deactivate API
+UI -> User: success
+deactivate UI
+
+@enduml

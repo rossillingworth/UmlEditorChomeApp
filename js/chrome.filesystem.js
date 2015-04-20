@@ -34,7 +34,6 @@ var FileSystem = {
      */
     writeFileEntry:function writeFileEntry(writableEntry, opt_blob, callback) {
         if (!writableEntry) {
-            output.textContent = 'Nothing selected.';
             return;
         }
 
@@ -88,5 +87,22 @@ var FileSystem = {
             }
         };
         setTimeout(reentrant, 100);
+    },
+
+    /**
+     * Convert a blob to text
+     * @param blob
+     * @param callbackSuccess
+     * @param callbackError
+     */
+    readBlobToText:function readBlobToText(blob,callbackSuccess,callbackError){
+        callbackError = callbackError || console.error;
+        var reader= new FileReader();
+        reader.onerror = callbackError;
+        reader.onload = function(e){
+            callbackSuccess(e.target.result);
+        };
+        reader.readAsText(blob);
     }
+
 }
