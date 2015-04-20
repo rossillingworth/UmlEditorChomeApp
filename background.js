@@ -7,8 +7,8 @@ chrome.app.runtime.onLaunched.addListener(function(someData) {
         'bounds': {
             'top':0,
             'left':0,
-            'width': 800,
-            'height': 500
+            'width': 1280,
+            'height': 800
         }
 //        'frameOptions':{
 //            'type':'chrome',
