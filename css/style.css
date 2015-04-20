@@ -1,53 +1,54 @@
-@font-face {
-	font-family: 'icomoon';
-	src:url('fonts/icomoon.eot?-8fmav5');
-	src:url('fonts/icomoon.eot?#iefix-8fmav5') format('embedded-opentype'),
-		url('fonts/icomoon.woff?-8fmav5') format('woff'),
-		url('fonts/icomoon.ttf?-8fmav5') format('truetype'),
-		url('fonts/icomoon.svg?-8fmav5#icomoon') format('svg');
-	font-weight: normal;
-	font-style: normal;
+
+html, body {
+    margin: 0px;
+    padding: 0px;
+    overflow-y: visible;
+    overflow-x: visible;
+}
+body {
+    background-color: white;
+    font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+    font-size: 100%;
 }
 
-[class^="icon-"], [class*=" icon-"] {
-	font-family: 'icomoon';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
 
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+.menubar{
+    position:fixed;
+    z-index: 999;
+    top:0px;
+    left:0px;
+    width:100%;
+    background-color: white;
+    border-bottom: 1px solid lightgray;
+    padding: 0px 2px 2px 2px;
 }
 
-.icon-panorama-horizontal:before {
-	content: "\e600";
+
+button{
+    font-size: large;
+}
+button.choosen{
+    background-color: lightgray;
 }
 
-.icon-panorama-vertical:before {
-	content: "\e601";
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+}
+.CodeMirror-scroll {
+    height: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
 }
 
-.icon-file-empty:before {
-	content: "\e924";
+.outputImg{
+    float:left;
+    padding-bottom: 20px;
+    right:0px;
+    max-width: 49%;
 }
 
-.icon-folder-open:before {
-	content: "\e930";
-}
 
-.icon-floppy-disk:before {
-	content: "\e962";
+.statusBarContainer{
+    width:100%;overflow: hidden;position: fixed; bottom: 0px;left: 0px;z-index: 999;
 }
-
-.icon-question:before {
-	content: "\ea09";
-}
-
-.icon-loop2:before {
-	content: "\ea2e";
-}
-

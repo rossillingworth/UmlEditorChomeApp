@@ -1,7 +1,14 @@
 
 save image to desktop
 
-icons images
+icons images - DONE
+
+fixed position top navbar
+
+popup on close if not saved
+
+
+#######################
 
 Store
 https://chrome.google.com/webstore/developer/dashboard/g04891485099816891672?hl=en-GB&gl=GB&authuser=0
@@ -11,7 +18,7 @@ https://developer.chrome.com/apps/analytics
 https://www.google.com/analytics/web/?et&authuser=0#management/Settings/a62045676w96951136p101110461/%3Fm.page%3DTrackingCode/
 
 
-
+#######################
 
 
 /**

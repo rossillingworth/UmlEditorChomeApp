@@ -24,73 +24,17 @@
     <script src="js/window.js"></script>
 
     <link rel="stylesheet" href="js/codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="css/style.css"></head>
+    <link rel="stylesheet" href="css/iconstyle.css"></head>
+    <link rel="stylesheet" href="css/style.css"></head> <!-- last to override everything else -->
 
     <style>
-        html, body {
-            margin: 0px;
-            padding: 0px;
-            overflow-y: visible;
-            overflow-x: visible;
-        }
-        body {
-            background-color: white;
-            font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-            font-size: 100%;
-        }
-        /*#status {*/
-        /* avoid an excessively wide status text */
-        /*white-space: pre;*/
-        /*text-overflow: ellipsis;*/
-        /*overflow: hidden;*/
-        /*max-width: 400px;*/
-        /*}*/
-        .section{
-            /*border: double lightgreen 2px;*/
-            /*border: double lightgray 2px;*/
-            /*border-radius: 5px;*/
-            /*padding: 5px;*/
-        }
-
-        .CodeMirror {
-            border: 1px solid #eee;
-            height: auto;
-        }
-        .CodeMirror-scroll {
-            height: auto;
-            overflow-y: hidden;
-            overflow-x: auto;
-        }
-
-        .outputImg{
-            float:left;
-            padding-bottom: 20px;
-            right:0px;
-            max-width: 49%;
-        }
-
-        button{
-            font-size: large;
-        }
-        button.choosen{
-            background-color: lightgray;
-        }
-
-        #helpContainer{
-            z-index: 1000;
-            position:absolute;
-            left:10%;
-            top:10%;
-            width:80%;
-            height:80%;
-        }
 
     </style>
 
 </head>
 
 <body>
-<div style="width:100%;background-color: white;border-bottom: 1px solid lightgray;padding: 0px 2px 2px 2px;" class="section glyph fs2">
+<div class="menubar section glyph fs2">
     <!--file-->
     <button type="button" id="buttonNew" title="New">               <span class="icon-file-empty">&nbsp;New</span></button>
     <button type="button" id="buttonOpen" title="Open File">        <span class="glyph-icon icon-folder-open">&nbsp;Open</span></button>
@@ -106,8 +50,8 @@
     <!--Help-->
     <button type="button" id="buttonHelp" title="Help">             <span class="glyph-icon icon-question">&nbsp;Help</span></button>
 </div>
+<div class="glyph fs2" style="clear: both;height:2em;">&nbsp;</div>
 
-<!--<iframe id="helpContainer" src="windowHelp.html"></iframe>-->
 
 <div id="editorContainer" style="float:left;height: auto;width:50%;max-width: 50%;" class="section">
 <textarea id="editor" name="editor" ></textarea>
@@ -119,7 +63,7 @@
 
 <br style="clear:both;"/>
 <div style="height:50px;">&nbsp;</div>
-<div style="width:100%;overflow: hidden;position: fixed; bottom: 0px;left: 0px;z-index: 999;">
+<div class="statusBarContainer">
     <input type="text" id="statusBar" style="width: 100%;" value="status bar">
 </div>
 
