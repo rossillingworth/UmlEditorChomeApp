@@ -50,6 +50,7 @@ var App = {
         App.buttonOpen         = document.querySelector("#buttonOpen");
         App.buttonSave         = document.querySelector("#buttonSave");
         App.buttonSaveAs       = document.querySelector("#buttonSaveAs");
+        App.buttonSaveImg      = document.querySelector("#buttonSaveImg");
         App.buttonGenerate     = document.querySelector("#buttonGenerate");
         App.buttonHorizontal   = document.querySelector("#buttonHorizontal");
         App.buttonVertical     = document.querySelector("#buttonVertical");
@@ -88,6 +89,7 @@ var App = {
         App.buttonOpen.addEventListener("click",App.file.choose);
         App.buttonSave.addEventListener("click",App.file.save);
         App.buttonSaveAs.addEventListener("click",App.file.saveAs);
+        App.buttonSaveImg.addEventListener("click",App.file.saveImage);
         App.buttonGenerate.addEventListener("click",App.editor.generate);
 
         App.buttonHorizontal.addEventListener("click",function(){App.state.setState(App.STATE.HORIZONTAL)});
@@ -121,7 +123,13 @@ var App = {
             App.log("generating img");
             if(App.state.state==App.STATE.EDITING){
                 App.status("loading diagram...")
-                refreshDiagram(App.editor.getContents(),"diagram",function(){App.status("diagram updated")});
+                refreshDiagram(App.editor.getContents(),"diagram",function(blob,dataUrl){
+                    App.status("diagram updated")
+                    App.imgData = {
+                        blob:blob,
+                        dataUrl:dataUrl
+                    };
+                });
             }else{
                 App.log("Generating Blocked");
             }
@@ -224,7 +232,11 @@ var App = {
         save:function save(){
             console.log("save..");
             if(App.currentFileEntry){
-                chrome.fileSystem.getWritableEntry(App.currentFileEntry,App.file.writeToFile);
+                chrome.fileSystem.getWritableEntry(App.currentFileEntry,function(writableEntry){
+                    var contents = App.editor.getContents();
+                    var blob = new Blob([contents], {type: 'text/plain'});
+                    App.file.writeToFile(writableEntry,blob);
+                });
             }else{
                 App.status("No file, please choose one");
                 App.file.saveAs();
@@ -239,17 +251,35 @@ var App = {
             var suggestedName = (App.currentFileEntry && App.currentFileEntry.name)?App.currentFileEntry.name:"mydiagram.uml";
             var config = {type: 'saveFile', suggestedName: suggestedName};
             try{
-                chrome.fileSystem.chooseEntry(config, App.file.writeToFile);
+                chrome.fileSystem.chooseEntry(config, function(writableEntry){
+                    var contents = App.editor.getContents();
+                    var blob = new Blob([contents], {type: 'text/plain'});
+                    App.file.writeToFile(writableEntry,blob);
+                });
                 App.log(chrome.runtime.lastError);
             }catch(e){
                 App.log(e);
             }
         },
 
-        writeToFile:function(writableEntry){
+        saveImage:function saveImage(){
+            console.log("save image..");
+            if(App.imgData["blob"] == undefined || App.imgData["dataUrl"]==undefined){return;}
+            var suggestedName = (App.currentFileEntry && App.currentFileEntry.name)?App.currentFileEntry.name:"mydiagram.png";
+            var config = {type: 'saveFile', suggestedName: suggestedName};
+            try{
+                chrome.fileSystem.chooseEntry(config, function(writableEntry){
+                    var blob = App.imgData.blob;
+                    App.file.writeToFile(writableEntry,blob);
+                });
+                App.log(chrome.runtime.lastError);
+            }catch(e){
+                App.log(e);
+            }
+        },
+
+        writeToFile:function(writableEntry,blob){
             App.myCodeMirror.save();
-            var contents = App.editor.getContents();
-            var blob = new Blob([contents], {type: 'text/plain'});
             FileSystem.writeFileEntry(writableEntry, blob, function(e) {
                 console.log('Write complete :)',writableEntry.name);
                 App.status("File saved: " + writableEntry.name)

@@ -88,12 +88,10 @@ function refreshDiagram(contents,imgId,callbackSuccess){
         var reader= new FileReader();
         reader.onload = function(e){
             img.src = e.target.result;
+            console.log("Image loaded");
+            callbackSuccess(blob, e.target.result);
         };
         reader.readAsDataURL(blob);
-
-        //document.body.appendChild(img);
-        console.log("Image loaded");
-        callbackSuccess();
     };
 
     xhr.send();
