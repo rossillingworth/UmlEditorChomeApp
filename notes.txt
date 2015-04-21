@@ -7,6 +7,8 @@ fixed position top navbar
 
 popup on close if not saved
 
+button to print, CSS
+
 ###
 
 so help button did not work and i did not know how to turn on the debug console. the error i get from the console: uncaught type error: cannot read property left, line 124 in window.js
