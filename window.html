@@ -63,16 +63,22 @@
 <div class="glyph fs2" style="clear: both;height:2em;">&nbsp;</div>
 
 <div id="helpBox" style="position:fixed;left:0px;top: 2em;bottom:25px;border: 1px double green;width: 128px;overflow-y: scroll;">
+    <select style="width:100px;">
+        <option>sequence</option>
+        <option>activity</option>
+        <option>class</option>
+        <option>object</option>
+        <option>...</option>
+    </select>
     <img style="height: 100px;width: 100px;background-color: yellow">
 </div>
 
-
-<div id="editorContainer" style="float:left;height: auto;width:50%;max-width: 50%;padding-left:102px;" class="section">
-<textarea id="editor" name="editor" ></textarea>
+<div style="position: relative; padding-left:130px;right:0px;">
+    <div id="editorContainer" style="float:left;height: auto;width:50%;max-width: 50%;" class="section">
+        <textarea id="editor" name="editor" ></textarea>
+    </div>
+    <img class="outputImg" id="diagram">
 </div>
-
-
-<img class="outputImg" id="diagram">
 
 
 <br style="clear:both;"/>

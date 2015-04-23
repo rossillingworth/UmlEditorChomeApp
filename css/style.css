@@ -44,8 +44,8 @@ button.choosen{
 .outputImg{
     float:left;
     padding-bottom: 20px;
-    right:0px;
-    max-width: 49%;
+    /*right:0px;*/
+    max-width: 45%;
 }
 
 

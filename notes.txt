@@ -1,15 +1,15 @@
 
-save image to desktop
+save image to desktop - DONE
 
 icons images - DONE
 
-fixed position top navbar
+fixed position top navbar - DONE
 
-popup on close if not saved
+popup on close if not saved - ?????????
 
-button to print, CSS
+button to print, CSS - ????????????????
 
-Demo DDL: opens new window with demo loaded when selected
+Demo DDL: opens new window with demo loaded when selected - DONE
 
 or:... Help shown on the LHS, see: https://www.websequencediagrams.com/
 [sequence]
