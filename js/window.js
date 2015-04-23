@@ -38,7 +38,7 @@ var App = {
         App.initListeners();
         App.state.setState(App.STATE.EMPTY);
         App.status("Application ready");
-        App.file.loadLocal('demo/demo_sequence.umle');
+        App.initLoadFile();//demo/demo_sequence.umle
     },
 
     initFunctions:function initFunctions(){
@@ -55,6 +55,7 @@ var App = {
         App.buttonHorizontal   = document.querySelector("#buttonHorizontal");
         App.buttonVertical     = document.querySelector("#buttonVertical");
         App.buttonHelp         = document.querySelector("#buttonHelp");
+        App.ddlDemos           = document.querySelector("#selectDemo");
 
         App.editorContainer    = document.querySelector("#editorContainer");
         App.textarea           = document.querySelector("#editor");
@@ -98,12 +99,21 @@ var App = {
         App.buttonHelp.addEventListener("click",function(){
             App.showHelp();
         });
+        App.ddlDemos.addEventListener("click",App.file.loadDemo);
+
         // CTRL+ENTER -> regen image
         document.addEventListener("keypress",function(e){
             if(e.ctrlKey&&(e.keyCode==10||e.keyCode==13)){
                 App.editor.generate();
             }
         });
+    },
+
+    initLoadFile:function initLoadFile(){
+        var hash = window.location.hash;
+        if(hash.length>0){
+            App.file.loadLocal(hash.substring(1));
+        }
     },
 
     editor:{
@@ -139,19 +149,6 @@ var App = {
 
 
     showHelp:function(){
-        // Set new window to be offset from current window.
-//        var newWindowOffset = 100;
-//        var innerBounds = chrome.app.window.current().innerBounds;
-//
-//        innerBounds.left = (innerBounds.left + newWindowOffset) % (screen.width - innerBounds.width);
-//        innerBounds.top = (innerBounds.top + newWindowOffset) % (screen.height - innerBounds.height);
-//        var optionsDictionary = {};
-//        optionsDictionary.innerBounds = {};
-//        optionsDictionary.innerBounds.left = innerBounds.left;
-//        optionsDictionary.innerBounds.top = innerBounds.top;
-//        optionsDictionary.innerBounds.width = innerBounds.width;
-//        optionsDictionary.innerBounds.height = innerBounds.height;
-        //
         chrome.app.window.create('windowHelp.html');//, optionsDictionary);//, callback);
     },
 
@@ -164,6 +161,22 @@ var App = {
 
             extensions: ['txt','seq','uml']
         }],
+
+        loadDemo:function loadDemo(){
+            var name = App.ddlDemos.options[App.ddlDemos.selectedIndex].value;
+            if(name.length > 0){
+                // todo: load in new window ?
+                //App.file.loadLocal(name);
+                chrome.app.window.create('window.html#'+name,{
+                    'bounds': {
+                        'width': window.screen.availWidth,
+                        'height': window.screen.availWidth
+                    }
+                    //,state: 'maximized'
+                    //,resizable: false
+                });
+            }
+        },
 
         loadLocal:function(filepath){
             var xhr = new XMLHttpRequest();

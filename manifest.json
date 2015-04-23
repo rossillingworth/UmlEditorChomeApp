@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "UML Diagram Editor",
-    "version": "0.0.0.9",
+    "version": "0.0.0.10",
 
     "description": "Generate UML diagrams from text, including: Sequence, Activity, Class, State, Component. Uses the PlantUML syntax.",
     "icons":{
