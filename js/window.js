@@ -36,6 +36,7 @@ var App = {
         App.status("Initializing...");
         App.initCodeMirror();
         App.initListeners();
+        App.initHelpbox();
         App.state.setState(App.STATE.EMPTY);
         App.status("Application ready");
         App.initLoadFile();//demo/demo_sequence.umle
@@ -107,6 +108,16 @@ var App = {
                 App.editor.generate();
             }
         });
+    },
+
+    initHelpbox:function initHelpbox(){
+        var box = JS.DOM.getElement("helpBox");
+
+        for(var i = 0; i < 20; i++){
+            TM.DOM.createElement({tagName:"IMG",classes:"helpImg",style:{"width":"100px","height":"100px","background-color":"green"}},box);
+            App.log("created img");
+        }
+        //<img style="height: 100px;width: 100px;background-color: yellow">
     },
 
     initLoadFile:function initLoadFile(){
@@ -204,13 +215,13 @@ var App = {
         choose:function choose(){
             console.log("Choose file");
             //try{
-                var config = {type: 'openFile', accepts: App.file.accepts}
-                chrome.fileSystem.chooseEntry(config, function(choosenFileEntry){
-                    App.log("Choosen",choosenFileEntry);
-                    if(choosenFileEntry.isFile){
-                        FileSystem.load(choosenFileEntry,App.file.loadSuccess,App.error);
-                    }
-                });
+            var config = {type: 'openFile', accepts: App.file.accepts}
+            chrome.fileSystem.chooseEntry(config, function(choosenFileEntry){
+                App.log("Choosen",choosenFileEntry);
+                if(choosenFileEntry.isFile){
+                    FileSystem.load(choosenFileEntry,App.file.loadSuccess,App.error);
+                }
+            });
             //}catch(e){
             //    App.error(e);
             //}

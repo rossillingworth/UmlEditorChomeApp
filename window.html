@@ -16,6 +16,7 @@
      -->
     <script src="js/lodash.js"></script>
     <script src="js/JS.js"></script>
+    <script src="js/TM.js"></script>
     <script src="js/rawdeflate.js"></script>
     <script src="js/codemirror/lib/codemirror.js"></script>
 
@@ -46,7 +47,7 @@
     <!--Img-->
     <button type="button" id="buttonRefresh" title="Refresh">
         <span class="glyph-icon icon-loop2">&nbsp;Refresh</span>
-        <input type="checkbox" id="checkboxGenerateAuto" name="checkboxGenerateAuto" value="true" style="padding: 0px;margin: 0px;" checked>
+        <input type="checkbox" id="checkboxGenerateAuto" name="checkboxGenerateAuto" value="true" style="padding: 0px;" checked>
     </button>
     <button type="button" id="buttonHorizontal" title="Horizontal" class="choosen"> <span class="glyph-icon icon-panorama-horizontal">&nbsp;Horizontal</span></button>
     <button type="button" id="buttonVertical" title="Vertical">     <span class="glyph-icon icon-panorama-vertical">&nbsp;Vertical</span></button>
@@ -61,8 +62,12 @@
 <!--Div to block out absolute nav bar-->
 <div class="glyph fs2" style="clear: both;height:2em;">&nbsp;</div>
 
+<div id="helpBox" style="position:fixed;left:0px;top: 2em;bottom:25px;border: 1px double green;width: 128px;overflow-y: scroll;">
+    <img style="height: 100px;width: 100px;background-color: yellow">
+</div>
 
-<div id="editorContainer" style="float:left;height: auto;width:50%;max-width: 50%;" class="section">
+
+<div id="editorContainer" style="float:left;height: auto;width:50%;max-width: 50%;padding-left:102px;" class="section">
 <textarea id="editor" name="editor" ></textarea>
 </div>
 

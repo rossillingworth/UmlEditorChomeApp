@@ -52,3 +52,8 @@ button.choosen{
 .statusBarContainer{
     width:100%;overflow: hidden;position: fixed; bottom: 0px;left: 0px;z-index: 999;
 }
+
+
+#checkboxGenerateAuto{
+    border: 2px solid green;
+}
