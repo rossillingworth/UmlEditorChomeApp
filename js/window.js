@@ -51,7 +51,7 @@ var App = {
         App.buttonSave         = document.querySelector("#buttonSave");
         App.buttonSaveAs       = document.querySelector("#buttonSaveAs");
         App.buttonSaveImg      = document.querySelector("#buttonSaveImg");
-        App.buttonGenerate     = document.querySelector("#buttonGenerate");
+        App.buttonRefresh      = document.querySelector("#buttonRefresh");
         App.buttonHorizontal   = document.querySelector("#buttonHorizontal");
         App.buttonVertical     = document.querySelector("#buttonVertical");
         App.buttonHelp         = document.querySelector("#buttonHelp");
@@ -91,7 +91,7 @@ var App = {
         App.buttonSave.addEventListener("click",App.file.save);
         App.buttonSaveAs.addEventListener("click",App.file.saveAs);
         App.buttonSaveImg.addEventListener("click",App.file.saveImage);
-        App.buttonGenerate.addEventListener("click",App.editor.generate);
+        App.buttonRefresh.addEventListener("click",App.editor.toggleAutoRefresh);
 
         App.buttonHorizontal.addEventListener("click",function(){App.state.setState(App.STATE.HORIZONTAL)});
         App.buttonVertical.addEventListener("click",function(){App.state.setState(App.STATE.VERTICAL)});
@@ -127,6 +127,12 @@ var App = {
         },
         makeEditable:function makeEditable(){
             App.state.setState(App.STATE.EDITING);
+            App.editor.generate();
+        },
+        toggleAutoRefresh:function toggleAutoRefresh(){
+            var el = JS.DOM.getElement("checkboxGenerateAuto",true);
+            var val = JS.DOM.FORM.getValue(el);
+            el.checked = val?false:true;
             App.editor.generate();
         },
         generate:function generate(){
@@ -335,12 +341,12 @@ var App = {
                     App.currentFileEntry = undefined;
                     App.buttonSave.setAttribute("disabled","disabled");
                     App.buttonSaveAs.disabled = true;//setAttribute("disabled","disabled");
-                    App.buttonGenerate.disabled = true;//setAttribute("disabled","disabled");
+                    App.buttonRefresh.disabled = true;//setAttribute("disabled","disabled");
                     break;
                 case App.STATE.EDITING:
                     App.buttonSave.disabled = false;//removeAttribute("disabled");
                     App.buttonSaveAs.disabled = false;//removeAttribute("disabled");
-                    App.buttonGenerate.disabled = false;//removeAttribute("disabled");
+                    App.buttonRefresh.disabled = false;//removeAttribute("disabled");
                     App.state.state = state;
                     break;
                 case App.STATE.HORIZONTAL:
