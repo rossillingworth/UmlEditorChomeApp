@@ -57,7 +57,11 @@ var App = {
         App.buttonRefresh      = document.querySelector("#buttonRefresh");
         App.buttonHorizontal   = document.querySelector("#buttonHorizontal");
         App.buttonVertical     = document.querySelector("#buttonVertical");
+
         App.buttonHelp         = document.querySelector("#buttonHelp");
+        App.ddlHelp            = document.querySelector("#ddlHelp");
+        App.helpImagesContainer= document.querySelector("#helpImagesContainer");
+
         App.ddlDemos           = document.querySelector("#selectDemo");
 
         App.editorContainer    = document.querySelector("#editorContainer");
@@ -99,9 +103,10 @@ var App = {
         App.buttonHorizontal.addEventListener("click",function(){App.state.setState(App.STATE.HORIZONTAL)});
         App.buttonVertical.addEventListener("click",function(){App.state.setState(App.STATE.VERTICAL)});
         // help
-        App.buttonHelp.addEventListener("click",function(){
-            App.showHelp();
-        });
+        App.buttonHelp.addEventListener("click",App.help.showHelp);
+        App.ddlHelp.addEventListener("change",App.help.ddlChanged);
+        App.helpImagesContainer.addEventListener("click",App.help.imageClicked);
+
         App.ddlDemos.addEventListener("click",App.file.loadDemo);
 
         // CTRL+ENTER -> regen image
@@ -166,10 +171,20 @@ var App = {
     },
 
 
-
-    showHelp:function(){
-        chrome.app.window.create('windowHelp.html');//, optionsDictionary);//, callback);
+    help:{
+        showHelp:function(){
+            chrome.app.window.create('windowHelp.html');//, optionsDictionary);//, callback);
+        },
+        ddlChanged:function ddlChanged(){
+            var val = JS.DOM.FORM.getValue(App.ddlHelp);
+            console.log(val);
+        },
+        imageClicked:function(e){
+            console.log("image clicked",e);
+        }
     },
+
+
 
     /**
      * File functions
