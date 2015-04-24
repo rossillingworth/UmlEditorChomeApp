@@ -14,50 +14,44 @@ var http = require('http');
 eval(fs.readFileSync('../js/rawdeflate.js', 'utf8'));
 eval(fs.readFileSync('../js/plantuml.js', 'utf8'));
 
-function getFiles (dir, files_){
-    files_ = files_ || [];
-    var files = fs.readdirSync(dir);
-    for (var i in files){
-        //var name = dir + '/' + files[i];
-        //if (fs.statSync(name).isDirectory()){
-        //    getFiles(name, files_);
-        //} else {
-            files_.push(files[i]);
-        //}
+function getFiles (dir,suffix){
+    var files = fs.readdirSync(dir,suffix);
+    if(suffix){
+        suffix = suffix.split("").reverse().join("");
+        files = files.filter(function(f){return f.split("").reverse().join("").indexOf(suffix)==0});
     }
-    return files_;
+    return files;
 }
 
+/**
+ * base64 / encode contents
+ * push contents to plantUML
+ * save image response to directory
+ *
+ * @param files
+ */
 function downloadGraphics(files){
+    console.log(files);
     files.forEach(function(file,ind,arr){
-        console.log(file);
-        // open file
+        // iterate files
         fs.readFile("./"+file,"utf8",function(err,contents){
-            console.log(contents);
+            // encode
             contents = unescape(encodeURIComponent(contents));
-            console.log(contents);
             var encoded = encode64(deflate(contents, 9));
-            console.log(encoded);
             var src = "http://www.plantuml.com/plantuml/img/"+encoded;
-            console.log(src);
-
-            var fileObj = fs.createWriteStream(file+".png");
+            // file
+            var filename = file + ".png";
+            var fileObj = fs.createWriteStream("images/"+filename);
+            // get & save
             var request = http.get(src, function(response) {
                 response.pipe(fileObj);
+                console.log("saved",contents.length,filename);
             });
-
         });
-
-        // base64 / encode contents
-        // push contents to plantUML
-        // save image response to directory
-
     });
 }
 
-var files = getFiles('.');
-files = files.filter(function(f){return f.split("").reverse().join("").indexOf("elmu.")==0});
-console.log(files);
+var files = getFiles('.',".umle");
 downloadGraphics(files);
 
 
