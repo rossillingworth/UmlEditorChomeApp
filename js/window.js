@@ -76,7 +76,7 @@ var App = {
             //theme:"eclipse",
             lineNumbers:true,
             //viewportMargin:Infinity,
-            //autofocus:true,
+            autofocus:true,
             redraw:function(){console.log("redrawn");}
         });
         // handle editor text changed event
@@ -421,6 +421,7 @@ var App = {
                 default:
                     throw Error("UNKNOWN STATE:" + state);
             }
+            App.myCodeMirror.focus();
         }
     }
 };
