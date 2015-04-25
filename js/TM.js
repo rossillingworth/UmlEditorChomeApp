@@ -26,7 +26,7 @@ function forIn(scope,data,callback){
 }
 var TM = {
     debug:true
-    ,debugDetail:5
+    ,debugDetail:1
     // log levels: 0:FATAL, 1:WARNING, 2:INFO, 3:DEBUG, 4:MORE, 5:EVERYTHING
     ,log:function(msg,lvl){lvl=lvl||5;if (TM.debug && window["console"] && lvl<=TM.debugDetail){console.log(msg);}}
     /**

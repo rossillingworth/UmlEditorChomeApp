@@ -31,6 +31,7 @@ var App = {
      * Initialise stuff
      */
     init:function init(){
+
         App.initFunctions();
         App.initBindings();
         App.status("Initializing...");
@@ -41,7 +42,8 @@ var App = {
         App.status("Application ready");
         App.initLoadFile();//demo/demo_sequence.umle
 
-        setTimeout(App.initHelpbox,1);
+        setTimeout(App.initHelpbox,1000);
+
     },
 
     initFunctions:function initFunctions(){
@@ -119,18 +121,21 @@ var App = {
 
     initHelpbox:function initHelpbox(){
         var box = JS.DOM.getElement("helpBox");
-
+        var df = document.createDocumentFragment();
         for(var i = 0; i < 20; i++){
-            TM.DOM.createElement({tagName:"IMG",className:"helpImg",style:{"width":"100px","height":"100px","background-color":"green"}},box);
+            TM.DOM.createElement({tagName:"IMG",className:"helpImg",style:{"width":"100px","height":"100px","background-color":"green"}},df);
             App.log("created img");
         }
-        //<img style="height: 100px;width: 100px;background-color: yellow">
+        box.appendChild(df);
     },
 
     initLoadFile:function initLoadFile(){
         var hash = window.location.hash;
         if(hash.length>0){
-            App.file.loadLocal(hash.substring(1));
+            App.file.loadLocal(hash.substring(1),function(text){
+                App.editor.setContents(text);
+                App.editor.makeEditable();
+            });
         }
     },
 
@@ -183,7 +188,20 @@ var App = {
             console.log(val);
         },
         imageClicked:function(e){
-            console.log("image clicked",e);
+            var targetArray = e.target.src.split("/");
+            var targetName = targetArray[targetArray.length-1];
+            var fileName = targetName.substr(0,targetName.lastIndexOf("."));
+            App.help.injectHelp(fileName);
+        },
+        injectHelp:function injectHelp(fileName){
+            console.log("injecting",fileName);
+            App.file.loadLocal("help/"+fileName,function(contents){
+                contents = contents.replace("@startuml","");
+                contents = contents.replace("@enduml","");
+                contents = contents.replace(/^(\s*\r\n){2,}/,"\r\n");
+                console.log(contents);
+                App.myCodeMirror.getDoc().replaceSelection(contents);
+            });
         }
     },
 
@@ -215,18 +233,20 @@ var App = {
             }
         },
 
-        loadLocal:function(filepath){
+        /**
+         * Load a local text file
+         * @param filepath
+         * @param callback function that takes 1 param, the text loaded
+         */
+        loadLocal:function(filepath,callback){
+            EXCEPTION.when(!_.isFunction(callback),"Callback NOT a function");
             var xhr = new XMLHttpRequest();
             xhr.open('GET', filepath, true);
             xhr.responseType = 'blob';
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var blob = new Blob([this.response], {type: 'text/html'});
-
-                    FileSystem.readBlobToText(blob, function(text){
-                        App.editor.setContents(text);
-                        App.editor.makeEditable();
-                    });
+                    FileSystem.readBlobToText(blob, callback);
                 }
             };
             xhr.send();
@@ -367,7 +387,9 @@ var App = {
                     // de-activate save / saveAs
 //                debugger;
                     App.textarea.value = "";
-                    App.myCodeMirror.getDoc().setValue("");
+                    App.myCodeMirror.getDoc().setValue("@startuml\n\n\n\n\n\n\n\n\n@enduml");
+                    App.myCodeMirror.getDoc().setCursor(5,0);
+                    App.myCodeMirror.save();
                     $("diagram").src = App.emptyImage;
                     App.title("");
                     App.state.state = state;

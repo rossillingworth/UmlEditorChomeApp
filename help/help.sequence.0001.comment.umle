@@ -1,10 +1,14 @@
 @startuml
 
 actor User
+boundary proxy
 participant Server
+database DB
 
-User -> Server
-Server -> User
+User -> Server: GET /page
+Server -> DB: select * from table
+DB --> Server: {data}
+Server --> User: [page]
 
 @enduml
 
