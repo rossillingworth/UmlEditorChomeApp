@@ -167,6 +167,9 @@ var App = {
             }else{
                 App.log("Generating Blocked");
             }
+        },
+        print:function print(){
+            window.print();
         }
     },
 
@@ -329,7 +332,9 @@ var App = {
             App.myCodeMirror.save();
             FileSystem.writeFileEntry(writableEntry, blob, function(e) {
                 console.log('Write complete :)',writableEntry.name);
-                App.status("File saved: " + writableEntry.name)
+                App.status("File saved: " + writableEntry.name);
+                App.currentFileEntry = writableEntry;
+                App.title(writableEntry.name);
             });
         }
 

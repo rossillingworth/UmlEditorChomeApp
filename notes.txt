@@ -16,6 +16,10 @@ or:... Help shown on the LHS, see: https://www.websequencediagrams.com/
 [activity]
 [class]
 
+generate image should use save name if exists
+
+add PRINT ability
+
 ###
 
 so help button did not work and i did not know how to turn on the debug console. the error i get from the console: uncaught type error: cannot read property left, line 124 in window.js
