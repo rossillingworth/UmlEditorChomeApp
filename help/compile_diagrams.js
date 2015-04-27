@@ -31,10 +31,11 @@ function getFiles (dir,suffix){
  * @param files
  */
 function downloadGraphics(files){
+    var html = "\n";
     console.log(files);
     files.forEach(function(file,ind,arr){
         // iterate files
-        fs.readFile("./"+file,"utf8",function(err,contents){
+        var contents = fs.readFileSync("./"+file,"utf8");//,function(err,contents){
             // encode
             contents = unescape(encodeURIComponent(contents));
             var encoded = encode64(deflate(contents, 9));
@@ -42,13 +43,20 @@ function downloadGraphics(files){
             // file
             var filename = file + ".png";
             var fileObj = fs.createWriteStream("images/"+filename);
+
+            html = html + '<img style="width: 100px;background-color: yellow" src="help/images/'+filename+'">\n'
+
             // get & save
             var request = http.get(src, function(response) {
                 response.pipe(fileObj);
                 console.log("saved",contents.length,filename);
             });
-        });
+        //});
     });
+
+    console.log("##### HTML ###########");
+    console.log(html);
+    console.log("##### END HTML ###########");
 }
 
 var files = getFiles('.',".umle");

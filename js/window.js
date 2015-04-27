@@ -191,9 +191,9 @@ var App = {
             var targetArray = e.target.src.split("/");
             var targetName = targetArray[targetArray.length-1];
             var fileName = targetName.substr(0,targetName.lastIndexOf("."));
-            App.help.injectHelp(fileName);
+            App.help.injectFileContents(fileName);
         },
-        injectHelp:function injectHelp(fileName){
+        injectFileContents:function injectHelp(fileName){
             console.log("injecting",fileName);
             App.file.loadLocal("help/"+fileName,function(contents){
                 contents = contents.replace("@startuml","");
