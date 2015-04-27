@@ -1,6 +1,20 @@
 
 @media print {
 
+    .menubar{
+        display:none;
+    }
 
+    #helpBox{
+        display:none;
+    }
+
+    #editorContainer{
+        display:none;
+    }
+
+    .statusBarContainer{
+        display:none;
+    }
 
 }

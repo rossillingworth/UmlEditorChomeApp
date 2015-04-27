@@ -1,0 +1,17 @@
+@startuml
+
+title <u>How to write Notes</u>
+
+actor User
+boundary proxy
+participant Server
+database DB
+
+note left User: This note is left or user
+note right User: This note is right of user
+note over User, DB: This note covers everything
+hnote over User: this note is hexagonal
+note over User #lightgreen: this note is lightgreen
+
+
+@enduml

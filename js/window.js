@@ -42,7 +42,7 @@ var App = {
         App.status("Application ready");
         App.initLoadFile();//demo/demo_sequence.umle
 
-        setTimeout(App.initHelpbox,1000);
+        //setTimeout(App.initHelpbox,1000);
 
     },
 
@@ -61,6 +61,8 @@ var App = {
         App.buttonVertical     = document.querySelector("#buttonVertical");
 
         App.buttonHelp         = document.querySelector("#buttonHelp");
+        App.buttonPrint        = document.querySelector("#buttonPrint");
+
         App.ddlHelp            = document.querySelector("#ddlHelp");
         App.helpImagesContainer= document.querySelector("#helpImagesContainer");
 
@@ -106,6 +108,8 @@ var App = {
         App.buttonVertical.addEventListener("click",function(){App.state.setState(App.STATE.VERTICAL)});
         // help
         App.buttonHelp.addEventListener("click",App.help.showHelp);
+        App.buttonPrint.addEventListener("click",App.editor.print);
+
         App.ddlHelp.addEventListener("change",App.help.ddlChanged);
         App.helpImagesContainer.addEventListener("click",App.help.imageClicked);
 
@@ -174,6 +178,8 @@ var App = {
             }
         },
         print:function print(){
+            App.status("printing image");
+            App.log("printing image");
             window.print();
         }
     },
