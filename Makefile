@@ -20,7 +20,7 @@ clean: ## remove generated artefacts
 	rm -f testUmlEditorChomeApp.zip
 
 zip: ## create zip file for deployment
-	zip -r testUmlEditorChomeApp.zip *
+	zip -r UmlEditorChomeApp.zip *
 
 build: clean generateHelpImages zip ## run all build tools --- need to automate injection of HTML img list
 
