@@ -15,4 +15,12 @@ generateHelpImages: ## Iterate Help injection document & generate images for eac
 	node --version; \
 	node compile_diagrams.js
 
+clean: ## remove generated artefacts
+	rm -f help/images/*.png
+	rm -f testUmlEditorChomeApp.zip
+
+zip: ## create zip file for deployment
+	zip -r testUmlEditorChomeApp.zip *
+
+build: clean generateHelpImages zip ## run all build tools --- need to automate injection of HTML img list
 

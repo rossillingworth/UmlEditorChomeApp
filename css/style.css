@@ -31,6 +31,12 @@ button.choosen{
     background-color: lightgray;
 }
 
+#mainPanel{
+    position: relative;
+    padding-left:130px;
+    right:0px;
+}
+
 .CodeMirror {
     border: 1px solid #eee;
     height: auto;
@@ -40,6 +46,8 @@ button.choosen{
     overflow-y: hidden;
     overflow-x: auto;
 }
+
+
 
 .outputImg{
     float:left;
@@ -56,4 +64,8 @@ button.choosen{
 
 #checkboxGenerateAuto{
     border: 2px solid green;
+}
+
+#footerSizer{
+    height:50px;
 }

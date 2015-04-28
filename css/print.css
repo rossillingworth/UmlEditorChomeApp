@@ -5,16 +5,44 @@
         display:none;
     }
 
+    .glyph{
+        display: none;      !important;
+    }
+
     #helpBox{
-        display:none;
+        display:none;       !important;
     }
 
     #editorContainer{
-        display:none;
+        display:none;       !important;
     }
 
     .statusBarContainer{
-        display:none;
+        display:none;       !important;
+    }
+
+    #mainPanel{
+        padding-left:0px; !important;
+    }
+
+    .outputImg{
+        display: block;
+        clear:both;
+        /*position:absolute;*/
+        /*top:0px;*/
+        /*left:0px;*/
+        width:100%;         !important;
+        height:100%;        !important;
+        max-width: 100%;    !important;
+        max-height: 100%;   !important;
+    }
+
+    #footerSizer{
+        display: none;      !important;
+    }
+
+    div{
+        /*border: 10px solid green;*/
     }
 
 }

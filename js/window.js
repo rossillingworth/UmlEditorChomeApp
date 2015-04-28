@@ -312,6 +312,7 @@ var App = {
                     var contents = App.editor.getContents();
                     var blob = new Blob([contents], {type: 'text/plain'});
                     App.file.writeToFile(writableEntry,blob);
+                    App.currentFileEntry = writableEntry;
                 });
             }else{
                 App.status("No file, please choose one");
@@ -331,6 +332,7 @@ var App = {
                     var contents = App.editor.getContents();
                     var blob = new Blob([contents], {type: 'text/plain'});
                     App.file.writeToFile(writableEntry,blob);
+                    App.currentFileEntry = writableEntry;
                 });
                 App.log(chrome.runtime.lastError);
             }catch(e){
@@ -341,7 +343,7 @@ var App = {
         saveImage:function saveImage(){
             console.log("save image..");
             if(App.imgData["blob"] == undefined || App.imgData["dataUrl"]==undefined){return;}
-            var suggestedName = (App.currentFileEntry && App.currentFileEntry.name)?App.currentFileEntry.name:"mydiagram.png";
+            var suggestedName = (App.currentFileEntry && App.currentFileEntry.name)?App.currentFileEntry.name+".png":"mydiagram.png";
             var config = {type: 'saveFile', suggestedName: suggestedName};
             try{
                 chrome.fileSystem.chooseEntry(config, function(writableEntry){
@@ -359,7 +361,6 @@ var App = {
             FileSystem.writeFileEntry(writableEntry, blob, function(e) {
                 console.log('Write complete :)',writableEntry.name);
                 App.status("File saved: " + writableEntry.name);
-                App.currentFileEntry = writableEntry;
                 App.title(writableEntry.name);
             });
         }
