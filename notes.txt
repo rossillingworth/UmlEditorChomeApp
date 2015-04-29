@@ -7,7 +7,8 @@ fixed position top navbar - DONE
 
 popup on close if not saved - ?????????
 
-button to print, CSS - ????????????????
+button to print, CSS - DONE
+add PRINT ability
 
 Demo DDL: opens new window with demo loaded when selected - DONE
 
@@ -16,13 +17,10 @@ or:... Help shown on the LHS, see: https://www.websequencediagrams.com/
 [activity]
 [class]
 
-generate image should use save name if exists
+generate image should use save name if exists - DONE
 
-add PRINT ability
-
-SAVING NEW FILE ###### BROKEN ?
-update currentFile when save...!
-
+SAVING NEW FILE ###### BROKEN ? DONE
+update currentFile when save...! DONE
 
 ###
 
