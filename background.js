@@ -3,7 +3,8 @@
  * ?? todo: can be used to pass data?
  */
 chrome.app.runtime.onLaunched.addListener(function(someData) {
-    chrome.app.window.create('window.html#demo/demo_sequence.umle', {
+//    chrome.app.window.create('window.html#demo/demo_sequence.umle', {
+    chrome.app.window.create('app/index.html', {
         'bounds': {
             'top':0,
             'left':0,
